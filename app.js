@@ -13,6 +13,7 @@ var appController = (function(uiController, financeController) {
     //3.Olj awsan ogogdlvvdiig web dre tohirokh hesegy gargana
     //4. Toswiig tootsoolno
     //5. Etsiin uldegdel, tootsoog delgetsend gargana .
+    //5. Etsiin uldegdel, tootsoog delgetsend gargana .
   };
 
   document.querySelector(".add__btn").addEventListener("click", function() {

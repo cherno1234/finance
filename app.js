@@ -16,6 +16,25 @@ var uiController = (function() {
     },
     getDOMstrings: function() {
       return DOMstrings;
+    },
+    addListItem: function(item, type) {
+      // Orlogo zarlagiin elementiig aguulsan html-g beltgene.
+      var html, list;
+      if (type === "inc") {
+        list = ".income__list";
+        html =
+          '<div class="item clearfix" id="income-%id%"><div class="item__description">%DESCRIPTION%</div><div class="right clearfix"><div class="item__value">+$$value$$</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+      } else {
+        list = ".expenses__list";
+        html =
+          '<div class="item clearfix"id="expense-%id%"><div class="item__description">%DESCRIPTION%</div><div class="right clearfix"><div class="item__value">-$$value$$</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>';
+      }
+      //Ter HTML dotroo orlogo zarlagiin utga-uudiig replace ashiglaj solij ogno
+      html = html.replace("%id%", item.id);
+      html = html.replace("%DESCRIPTION%", item.description);
+      html = html.replace("$$value$$", item.value);
+      // Beltgsen HTML ee DOM ruu hiij ogno .
+      document.querySelector(list).insertAdjacentHTML("beforeend", html);
     }
   };
 })();
@@ -63,6 +82,7 @@ var financeController = (function() {
         item = new Expense(id, desc, val);
       }
       data.items[type].push(item);
+      return item;
     },
     seeData: function() {
       return data;
@@ -76,9 +96,16 @@ var appController = (function(uiController, financeController) {
     //1. Oruulakh ogogdliig delgetsees olj awna
     var input = uiController.getInput();
 
-    financeController.addItem(input.type, input.description, input.value);
     //2. Olj awsan ogogdluude sankhuugiin conrollert damjuuulj hadgalna.
+    var item = financeController.addItem(
+      input.type,
+      input.description,
+      input.value
+    );
     //3.Olj awsan ogogdlvvdiig web dre tohirokh hesegy gargana
+
+    uiController.addListItem(item, input.type);
+
     //4. Toswiig tootsoolno
     //5. Etsiin uldegdel, tootsoog delgetsend gargana .
     //5. Etsiin uldegdel, tootsoog delgetsend gargana .
